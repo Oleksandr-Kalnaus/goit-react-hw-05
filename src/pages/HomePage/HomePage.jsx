@@ -1,11 +1,34 @@
+import { useEffect, useState } from "react";
 import MovieList from "../../components/MovieList/MovieList";
-import "./HomePage.module.css";
+import apiRequests from "../../utils/apiRequests";
 
 function HomePage() {
+  const [movies, setMovies] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchTrendingMovies = async () => {
+      try {
+        const { movies } = await apiRequests("trending", 1);
+        setMovies(movies);
+      } catch (err) {
+        setError(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTrendingMovies();
+  }, []);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
+
   return (
-    <div className="homepage">
-      <h1>Welcome to the Movie App</h1>
-      <MovieList />
+    <div>
+      <h1>Trending Movies</h1>
+      <MovieList movies={movies} />
     </div>
   );
 }
