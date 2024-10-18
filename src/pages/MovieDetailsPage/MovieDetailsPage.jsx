@@ -1,26 +1,21 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import MovieCast from "../../components/MovieCast/MovieCast";
-import MovieReviews from "../../components/MovieReviews/MovieReviews";
+import { useParams, useNavigate, Outlet, Link } from "react-router-dom";
 import apiRequests from "../../utils/apiRequests";
+import "./MovieDetailsPage.module.css";
 
 function MovieDetailsPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [movie, setMovie] = useState(null);
   const [error, setError] = useState(null);
-
   const BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w500";
 
   useEffect(() => {
     const fetchMovieDetails = async () => {
       try {
-        console.log("Fetching movie details for ID:", id);
         const movieData = await apiRequests("details", 1, id);
-        console.log("Fetched movie data:", movieData);
         setMovie(movieData);
       } catch (err) {
-        console.error("Error fetching movie details:", err);
         if (err.response) {
           setError(
             new Error(
@@ -36,7 +31,6 @@ function MovieDetailsPage() {
         }
       }
     };
-
     fetchMovieDetails();
   }, [id]);
 
@@ -53,9 +47,13 @@ function MovieDetailsPage() {
           alt={`${movie.title} Poster`}
         />
       )}
+      <p>Budget: {movie.budget}</p>
       <p>{movie.overview}</p>
-      <MovieCast movieId={id} />
-      <MovieReviews movieId={id} />
+      <nav>
+        <Link to="cast">Cast</Link>
+        <Link to="reviews">Reviews</Link>
+      </nav>
+      <Outlet />
     </div>
   );
 }

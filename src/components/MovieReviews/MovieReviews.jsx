@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import apiRequests from "../../utils/apiRequests";
+import "./MovieReviews.module.css";
 
-function MovieReviews({ movieId }) {
+function MovieReviews() {
+  const { id: movieId } = useParams();
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -10,6 +13,7 @@ function MovieReviews({ movieId }) {
     const fetchReviews = async () => {
       try {
         const reviewsData = await apiRequests("reviews", 1, movieId);
+        console.log(reviewsData);
         setReviews(reviewsData || []);
       } catch (err) {
         setError(err);
@@ -17,7 +21,6 @@ function MovieReviews({ movieId }) {
         setLoading(false);
       }
     };
-
     fetchReviews();
   }, [movieId]);
 
