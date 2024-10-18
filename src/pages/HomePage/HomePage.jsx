@@ -10,7 +10,7 @@ function HomePage() {
   useEffect(() => {
     const fetchTrendingMovies = async () => {
       try {
-        const { movies } = await apiRequests("trending", 1);
+        const { movies } = await apiRequests("trending");
         setMovies(movies);
       } catch (err) {
         setError(err);

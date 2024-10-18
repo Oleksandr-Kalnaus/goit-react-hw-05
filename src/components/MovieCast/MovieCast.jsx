@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import apiRequests from "../../utils/apiRequests";
-import "./MovieCast.module.css";
 
 function MovieCast({ movieId }) {
   const [cast, setCast] = useState([]);
@@ -10,8 +9,8 @@ function MovieCast({ movieId }) {
   useEffect(() => {
     const fetchCast = async () => {
       try {
-        const { cast } = await apiRequests(`movie/${movieId}/credits`);
-        setCast(cast);
+        const castData = await apiRequests("cast", 1, movieId);
+        setCast(castData || []);
       } catch (err) {
         setError(err);
       } finally {

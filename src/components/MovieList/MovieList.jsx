@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import "./MovieList.module.css";
 
 function MovieList({ movies = [] }) {
@@ -8,11 +9,7 @@ function MovieList({ movies = [] }) {
       <ul>
         {movies.map((movie) => (
           <li key={movie.id}>
-            <img
-              src={`https://image.tmdb.org/t/p/w500/${movie.poster}`}
-              alt={movie.title}
-            />
-            {movie.title} (Released: {movie.dateOfRelease})
+            <Link to={`/movies/${movie.id}`}>{movie.title}</Link>
           </li>
         ))}
       </ul>

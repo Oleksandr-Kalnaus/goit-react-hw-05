@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import apiRequests from "../../utils/apiRequests";
-import "./MovieReviews.module.css";
 
 function MovieReviews({ movieId }) {
   const [reviews, setReviews] = useState([]);
@@ -10,8 +9,8 @@ function MovieReviews({ movieId }) {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const { results } = await apiRequests(`movie/${movieId}/reviews`);
-        setReviews(results);
+        const reviewsData = await apiRequests("reviews", 1, movieId);
+        setReviews(reviewsData || []);
       } catch (err) {
         setError(err);
       } finally {
@@ -27,20 +26,18 @@ function MovieReviews({ movieId }) {
 
   return (
     <div className="movie-reviews">
-      <h1>Movie Reviews</h1>
+      <h2>Movie Reviews</h2>
       {reviews.length ? (
         <ul>
           {reviews.map((review) => (
             <li key={review.id}>
+              <h3>{review.author}</h3>
               <p>{review.content}</p>
-              <p>
-                <b>Author:</b> {review.author}
-              </p>
             </li>
           ))}
         </ul>
       ) : (
-        <p>No reviews found.</p>
+        <p>No reviews available.</p>
       )}
     </div>
   );

@@ -2,13 +2,19 @@ import axios from "axios";
 
 const BASE_URL = "https://api.themoviedb.org/3";
 
-const apiRequests = async (endpoint, page = 1, query = "") => {
+const apiRequests = async (endpoint, page = 1, movieId = "") => {
   let url;
 
   if (endpoint === "trending") {
-    url = `${BASE_URL}/trending/movie/day?language=en-US&page=${page}`;
+    url = `${BASE_URL}/trending/movie/week?language=en-US`;
   } else if (endpoint === "search") {
-    url = `${BASE_URL}/search/movie?include_adult=true&language=en-US&page=${page}&query=${query}`;
+    url = `${BASE_URL}/search/movie?query=${movieId}&include_adult=false&language=en-US&page=${page}`;
+  } else if (endpoint === "details") {
+    url = `${BASE_URL}/movie/${movieId}?language=en-US`;
+  } else if (endpoint === "reviews") {
+    url = `${BASE_URL}/movie/${movieId}/reviews?language=en-US&page=${page}`;
+  } else if (endpoint === "cast") {
+    url = `${BASE_URL}/movie/${movieId}/credits?language=en-US`;
   } else {
     throw new Error("Unknown endpoint");
   }
@@ -23,20 +29,28 @@ const apiRequests = async (endpoint, page = 1, query = "") => {
 
   try {
     const response = await axios.get(url, options);
-    const movies = response.data.results.map((movie) => ({
-      id: movie.id,
-      originalTitle: movie.original_title || "No title",
-      popularity: movie.popularity,
-      poster: movie.backdrop_path,
-      dateOfRelease: movie.release_date,
-      title: movie.title,
-    }));
-    const totalPages = response.data.total_pages;
-    const totalResult = response.data.total_results;
 
-    return { movies, totalPages, totalResult };
+    if (endpoint === "trending" || endpoint === "search") {
+      const movies = response.data.results.map((movie) => ({
+        id: movie.id,
+        originalTitle: movie.original_title || "No title",
+        popularity: movie.popularity,
+        poster: movie.backdrop_path,
+        dateOfRelease: movie.release_date,
+        title: movie.title,
+      }));
+      const totalPages = response.data.total_pages;
+      const totalResult = response.data.total_results;
+      return { movies, totalPages, totalResult };
+    } else if (endpoint === "details") {
+      return response.data;
+    } else if (endpoint === "reviews") {
+      return response.data.results;
+    } else if (endpoint === "cast") {
+      return response.data.cast;
+    }
   } catch (error) {
-    console.error("error: " + error);
+    console.error("Error: " + error);
     throw error;
   }
 };
