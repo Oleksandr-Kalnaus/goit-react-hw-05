@@ -1,20 +1,21 @@
 import axios from "axios";
 
 const BASE_URL = "https://api.themoviedb.org/3";
+axios.defaults.baseURL = BASE_URL;
 
 const apiRequests = async (endpoint, page = 1, movieId = "") => {
   let url;
 
   if (endpoint === "trending") {
-    url = `${BASE_URL}/trending/movie/week?language=en-US`;
+    url = `/trending/movie/week?language=en-US`;
   } else if (endpoint === "search") {
-    url = `${BASE_URL}/search/movie?query=${movieId}&include_adult=false&language=en-US&page=${page}`;
+    url = `/search/movie?query=${movieId}&include_adult=false&language=en-US&page=${page}`;
   } else if (endpoint === "details") {
-    url = `${BASE_URL}/movie/${movieId}?language=en-US`;
+    url = `/movie/${movieId}?language=en-US`;
   } else if (endpoint === "reviews") {
-    url = `${BASE_URL}/movie/${movieId}/reviews?language=en-US&page=${page}`;
+    url = `/movie/${movieId}/reviews?language=en-US&page=${page}`;
   } else if (endpoint === "cast") {
-    url = `${BASE_URL}/movie/${movieId}/credits?language=en-US`;
+    url = `/movie/${movieId}/credits?language=en-US`;
   } else {
     throw new Error("Unknown endpoint");
   }
