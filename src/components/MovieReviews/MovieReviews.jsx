@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import apiRequests from "../../utils/apiRequests";
-import "./MovieReviews.module.css";
+import css from "./MovieReviews.module.css";
 
 function MovieReviews() {
   const { id: movieId } = useParams();
@@ -28,19 +28,23 @@ function MovieReviews() {
   if (error) return <p>Error: {error.message}</p>;
 
   return (
-    <div className="movie-reviews">
-      <h2>Movie Reviews</h2>
+    <div className={css.movieReviews}>
+      <h2 className={css.movieHeading}>Movie Reviews</h2>
       {reviews.length ? (
-        <ul>
+        <ul className={css.reviewsList}>
           {reviews.map((review) => (
             <li key={review.id}>
-              <h3>{review.author}</h3>
-              <p>{review.content}</p>
+              <h3 className={css.reviewAuthor}>
+                <span className={css.title}>Author:</span> {review.author}
+              </h3>
+              <p className={css.reviewContent}>
+                <span className={css.title}>Review:</span> {review.content}
+              </p>
             </li>
           ))}
         </ul>
       ) : (
-        <p>No reviews available.</p>
+        <p className={css.noReviews}>No reviews available.</p>
       )}
     </div>
   );

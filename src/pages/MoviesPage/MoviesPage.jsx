@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import MovieList from "../../components/MovieList/MovieList";
 import { Toaster, toast } from "react-hot-toast";
 import { TbCameraSearch } from "react-icons/tb";
@@ -7,7 +8,14 @@ import css from "./MoviesPage.module.css";
 
 function MoviesPage() {
   const [movies, setMovies] = useState([]);
-  const [query, setQuery] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const query = searchParams.get("query") || "";
+
+  useEffect(() => {
+    if (query) {
+      handleSearch(query);
+    }
+  }, [query]);
 
   const handleSearch = async (query) => {
     try {
@@ -19,7 +27,12 @@ function MoviesPage() {
   };
 
   const handleInputChange = (event) => {
-    setQuery(event.target.value);
+    const newQuery = event.target.value;
+    if (newQuery.trim() === "") {
+      setSearchParams({});
+    } else {
+      setSearchParams({ query: newQuery });
+    }
   };
 
   const handleSubmit = (event) => {
@@ -29,7 +42,6 @@ function MoviesPage() {
       return;
     }
     handleSearch(query);
-    setQuery("");
   };
 
   return (

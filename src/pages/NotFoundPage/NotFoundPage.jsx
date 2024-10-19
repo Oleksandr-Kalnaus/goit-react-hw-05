@@ -1,12 +1,21 @@
 import { Link } from "react-router-dom";
-import "./NotFoundPage.module.css";
+import css from "./NotFoundPage.module.css";
+import PageNotFoundImage from "../../img/PageNotFound.jpg";
 
 function NotFoundPage() {
   return (
-    <div className="not-found-page">
-      <h1>404 - Not Found</h1>
-      <Link to="/">Go to Home</Link>
-    </div>
+    <>
+      <div className={css.NotFoundPage}>
+        <img
+          className={css.imgNotFoundPage}
+          src={PageNotFoundImage}
+          alt="404 - Not Found"
+        />
+        <Link className={css.goBackBtn} to="/">
+          Go to Home
+        </Link>
+      </div>
+    </>
   );
 }
 

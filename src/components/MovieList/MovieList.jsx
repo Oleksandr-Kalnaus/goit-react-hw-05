@@ -1,15 +1,19 @@
-import { Link } from "react-router-dom";
-import "./MovieList.module.css";
+import { Link, useLocation } from "react-router-dom";
+import css from "./MovieList.module.css";
 
 function MovieList({ movies = [] }) {
-  if (!movies.length) return <p>No movies found.</p>;
+  const location = useLocation();
+
+  if (!movies.length) return <p className={css.noMovie}>No movies found.</p>;
 
   return (
-    <div>
-      <ul>
+    <div className={css.movieListBox}>
+      <ul className={css.movieList}>
         {movies.map((movie) => (
           <li key={movie.id}>
-            <Link to={`/movies/${movie.id}`}>{movie.title}</Link>
+            <Link to={`/movies/${movie.id}`} state={{ from: location }}>
+              {movie.title}
+            </Link>
           </li>
         ))}
       </ul>
