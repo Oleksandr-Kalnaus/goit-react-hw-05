@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import apiRequests from "../../utils/apiRequests";
 import css from "./MovieDetailsPage.module.css";
+import poster from "../../../public/img/poster.jpg";
 
 function MovieDetailsPage() {
   const { id } = useParams();
@@ -19,7 +20,7 @@ function MovieDetailsPage() {
   const [error, setError] = useState(null);
 
   const BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w500";
-  const DEFAULT_POSTER_URL = "../../../public/img/poster.jpg";
+  const DEFAULT_POSTER_URL = poster;
 
   useEffect(() => {
     const fetchMovieDetails = async () => {

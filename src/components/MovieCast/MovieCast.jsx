@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import apiRequests from "../../utils/apiRequests";
 import css from "./MovieCast.module.css";
+import actor from "../../../public/img/actor.jpg";
 
 function MovieCast() {
   const { id: movieId } = useParams();
@@ -11,7 +12,7 @@ function MovieCast() {
   const [error, setError] = useState(null);
 
   const BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w500";
-  const DEFAULT_IMAGE = "../../../public/img/actor.jpg";
+  const DEFAULT_IMAGE = actor;
 
   useEffect(() => {
     const fetchCast = async () => {
