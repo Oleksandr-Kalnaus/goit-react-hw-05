@@ -61,3 +61,8 @@
   opacity: 1;
   visibility: visible;
 }
+
+.noMovie {
+  text-align: center;
+  color: brown;
+}

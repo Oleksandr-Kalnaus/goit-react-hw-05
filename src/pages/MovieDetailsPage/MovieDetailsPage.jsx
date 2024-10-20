@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import {
   useParams,
   Outlet,
@@ -12,9 +12,10 @@ import poster from "../../../public/img/poster.jpg";
 
 function MovieDetailsPage() {
   const { id } = useParams();
-
   const navigate = useNavigate();
   const location = useLocation();
+
+  const previousLocation = useRef(location.state?.from || "/movies");
 
   const [movie, setMovie] = useState(null);
   const [error, setError] = useState(null);
@@ -50,18 +51,14 @@ function MovieDetailsPage() {
   if (!movie) return <div>Loading...</div>;
 
   const handleGoBack = () => {
-    if (location.state && location.state.from) {
-      navigate(location.state.from);
-    } else {
-      navigate("/movies");
-    }
+    navigate(previousLocation.current);
   };
 
   return (
     <div className={css.movieDetailsPage}>
       <div className={css.movieDetails}>
         <div className={css.posterBox}>
-          <button className={css.goBackBtn} onClick={() => navigate(-1)}>
+          <button className={css.goBackBtn} onClick={handleGoBack}>
             Go back
           </button>
           <img
@@ -92,14 +89,14 @@ function MovieDetailsPage() {
         <Link
           className={css.link}
           to="cast"
-          state={{ from: location.state?.from }}
+          state={{ from: previousLocation.current }}
         >
           Cast
         </Link>
         <Link
           className={css.link}
           to="reviews"
-          state={{ from: location.state?.from }}
+          state={{ from: previousLocation.current }}
         >
           Reviews
         </Link>

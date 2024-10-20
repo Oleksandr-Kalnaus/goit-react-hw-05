@@ -4,8 +4,6 @@ import css from "./MovieList.module.css";
 function MovieList({ movies = [] }) {
   const location = useLocation();
 
-  if (!movies.length) return <p className={css.noMovie}>No movies found.</p>;
-
   return (
     <div className={css.movieListBox}>
       <ul className={css.movieList}>

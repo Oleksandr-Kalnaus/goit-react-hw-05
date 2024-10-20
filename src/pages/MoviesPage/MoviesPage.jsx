@@ -38,7 +38,6 @@ function MoviesPage() {
       return;
     }
     setSearchParams({ query: searchQuery });
-    handleSearch(searchQuery);
   };
 
   return (
@@ -60,6 +59,11 @@ function MoviesPage() {
           <Toaster position="top-right" reverseOrder={false} />
         </form>
       </div>
+
+      {query.length > 0 && movies.length === 0 && (
+        <p className={css.noMovie}>No movies found.</p>
+      )}
+
       <MovieList movies={movies} />
     </div>
   );
