@@ -28,7 +28,7 @@ function HomePage() {
 
   return (
     <div className={css.homePageBox}>
-      <h1 className={css.heading}>Popular movies this week.</h1>
+      <h1 className={css.heading}>Popular movies this week</h1>
       <MovieList movies={movies} />
     </div>
   );
