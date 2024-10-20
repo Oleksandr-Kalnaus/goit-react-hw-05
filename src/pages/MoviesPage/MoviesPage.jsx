@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import MovieList from "../../components/MovieList/MovieList";
 import { Toaster, toast } from "react-hot-toast";
-import { TbCameraSearch } from "react-icons/tb";
+import { FaFilm } from "react-icons/fa";
 import apiRequests from "../../utils/apiRequests";
 import css from "./MoviesPage.module.css";
 
@@ -10,6 +10,7 @@ function MoviesPage() {
   const [movies, setMovies] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get("query") || "";
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     if (query) {
@@ -27,21 +28,17 @@ function MoviesPage() {
   };
 
   const handleInputChange = (event) => {
-    const newQuery = event.target.value;
-    if (newQuery.trim() === "") {
-      setSearchParams({});
-    } else {
-      setSearchParams({ query: newQuery });
-    }
+    setSearchQuery(event.target.value);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (query.trim() === "") {
+    if (searchQuery.trim() === "") {
       toast.error("You must enter text to search for movies");
       return;
     }
-    handleSearch(query);
+    setSearchParams({ query: searchQuery });
+    handleSearch(searchQuery);
   };
 
   return (
@@ -51,14 +48,14 @@ function MoviesPage() {
           <input
             className={css.input}
             type="text"
-            value={query}
+            value={searchQuery}
             onChange={handleInputChange}
             autoComplete="off"
             autoFocus
             placeholder="Search movies"
           />
           <button className={css.button} type="submit">
-            <TbCameraSearch className={css.icon} />
+            <FaFilm className={css.icon} />
           </button>
           <Toaster position="top-right" reverseOrder={false} />
         </form>

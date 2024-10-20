@@ -19,7 +19,7 @@ function MovieDetailsPage() {
   const [error, setError] = useState(null);
 
   const BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w500";
-  const DEFAULT_POSTER_URL = "/src/img/poster.jpg";
+  const DEFAULT_POSTER_URL = "../../../public/img/poster.jpg";
 
   useEffect(() => {
     const fetchMovieDetails = async () => {
@@ -77,7 +77,10 @@ function MovieDetailsPage() {
 
         <div className={css.dataBox}>
           <h1 className={css.heading}>{movie.title}</h1>
-          <p className={css.dataText}>Budget: {movie.budget}</p>
+          <p className={css.dataText}>
+            Budget:
+            {movie.budget > 0 ? ` ${movie.budget}$` : " Budget is not known"}
+          </p>
           <p className={css.dataText}>Status: {movie.status}</p>
           <p className={css.dataText}>Rating: {movie.vote_average}</p>
           <p className={css.overview}>Overview: {movie.overview}</p>
